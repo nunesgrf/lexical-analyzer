@@ -1,5 +1,5 @@
-#ifndef TOKEN_TYPES_H
-#define TOKEN_TYPES_H
+#ifndef TOKENS_H
+#define TOKENS_H
 
 #define GENERATE_ENUM(ENUM) ENUM,
 #define GENERATE_STRING(STRING) #STRING,
