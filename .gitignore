@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# flex files
+lex.yy.c
+
+# bin
+exe

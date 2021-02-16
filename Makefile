@@ -1,7 +1,7 @@
 C	= gcc
 CINCS  	= -I"include/" -I"src/"
 CFLAGS 	= $(CINCS) -std=c11 -O2 -lfl
-SRCS	= $(shell find src -name '*.c' -and -not -name 'lex.yy.c' -and -not -name 'parser.c') src/lex.yy.c src/parser.c
+SRCS	= $(shell find src -name '*.c' -and -not -name 'lex.yy.c') src/lex.yy.c
 OBJ		= $(addprefix obj/,$(notdir $(SRCS:%.c=%.o))) 
 LEXICAL = lexical-analyzer
 BIN     = exe
@@ -17,13 +17,10 @@ debug: all
 clean: clean-custom
 	${RM} $(OBJ) $(BIN) src/yy.lex.cc src/parser.c src/parser.h
 
-$(LEXICAL): bison flex compile
+$(LEXICAL): flex compile
 
 flex: 
-	flex -o src/lex.yy.c src/tokenizer.lex
-
-bison:
-	bison -o src/parser.c src/parser.y -d -v
+	flex -o src/lex.yy.c src/main.lex
 
 compile: $(OBJ)
 	$(C) $(OBJ) -o $(BIN) $(CFLAGS)
