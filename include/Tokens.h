@@ -18,8 +18,6 @@ static const char *TokenString[] = {
     FOREACH_TOKEN(GENERATE_STRING)
 };
 
-void print(Token token) {
-    printf("<%s>", TokenString[token]);
-}
+void print(Token token);
 
 #endif
