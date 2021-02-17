@@ -38,22 +38,22 @@ BAR_BAR "||"
 COMMA ","
 SEMICOLON ";"
 
-IN_RESERVED_WORD "in"
-FLOAT_RESERVED_WORD "float"
-INT_RESERVED_WORD "int"
-ELEM_RESERVED_WORD "elem"
-SET_RESERVED_WORD "set"
-IF_RESERVED_WORD "if"
-ELSE_RESERVED_WORD "else"
-FOR_RESERVED_WORD "for"
-RETURN_RESERVED_WORD "return"
-READ_RESERVED_WORD "read"
-WRITE_RESERVED_WORD "write"
-WRITELN_RESERVED_WORD "writeln"
-ADD_RESERVED_WORD "add"
-REMOVE_RESERVED_WORD "remove"
-EXISTS_RESERVED_WORD "exists"
-EMPTY_RESERVED_WORD "EMPTY"
+IN "in"
+FLOAT "float"
+INT "int"
+ELEM "elem"
+SET "set"
+IF "if"
+ELSE "else"
+FOR "for"
+RETURN "return"
+READ "read"
+WRITE "write"
+WRITELN "writeln"
+ADD "add"
+REMOVE "remove"
+EXISTS "exists"
+EMPTY "EMPTY"
 
 UNDERSCORE      "_"
 NEWLINE         \n
@@ -70,10 +70,74 @@ IDENTIFIER      {LETTER}({DIGIT}|{LETTER}|{UNDERSCORE})*
 %x LINE_COMMENT
 %%
 
+"/*"                { column += yyleng; BEGIN(COMMENT); }
+<COMMENT>"*/"       { column += yyleng; BEGIN(INITIAL); }
+<COMMENT>{NEWLINE}  { column = 0; line++; }
+<COMMENT>.          { column += yyleng; }
+"//"                { column += yyleng; BEGIN(LINE_COMMENT); }
+<LINE_COMMENT>{NEWLINE}  { column = 1; line++; BEGIN(INITIAL); }
+<LINE_COMMENT>.          { column += yyleng; }
+
+{LEFT_PARENTHESIS}  { return TOKEN_LEFT_PARENTHESIS; }
+{RIGHT_PARENTHESIS} { return TOKEN_RIGHT_PARENTHESIS; }
+{LEFT_BRACE}        { return TOKEN_LEFT_BRACE; }
+{RIGHT_BRACE}       { return TOKEN_RIGHT_BRACE; }
+
+{EQUAL}             { return TOKEN_EQUAL; }
+{PLUS}              { return TOKEN_PLUS; }
+{ASTERISK}          { return TOKEN_ASTERISK; }
+{MINUS}             { return TOKEN_MINUS; }
+{SLASH}             { return TOKEN_SLASH; }
+{LEFT_ANGLE}        { return TOKEN_LEFT_ANGLE; }
+{RIGHT_ANGLE}       { return TOKEN_RIGHT_ANGLE; }
+{EXCLAMATION}       { return TOKEN_EXCLAMATION; }
+
+{EQUAL_EQUAL}       { return TOKEN_EQUAL_EQUAL; }
+{PLUS_EQUAL}        { return TOKEN_PLUS_EQUAL; }
+{ASTERISK_EQUAL}    { return TOKEN_ASTERISK_EQUAL; }
+{MINUS_EQUAL}       { return TOKEN_MINUS_EQUAL; }
+{SLASH_EQUAL}       { return TOKEN_SLASH_EQUAL; }
+{LEFT_ANGLE_EQUAL}  { return TOKEN_LEFT_ANGLE_EQUAL; }
+{RIGHT_ANGLE_EQUAL} { return TOKEN_RIGHT_ANGLE_EQUAL; }
+{EXCLAMATION_EQUAL} { return TOKEN_EXCLAMATION_EQUAL; }
+
+{BAR_BAR}           { return TOKEN_BAR_BAR; }
+{AND_AND}           { return TOKEN_AND_AND; }
+{COMMA}             { return TOKEN_COMMA; }
+{SEMICOLON}         { return TOKEN_SEMICOLON; }
+
+{IN}                { return TOKEN_IN; }
+{INT}               { return TOKEN_INT; }
+{FLOAT}             { return TOKEN_FLOAT; }
+{IF}                { return TOKEN_IF; }
+{ELSE}              { return TOKEN_ELSE; }
+{FOR}               { return TOKEN_FOR; }
+{RETURN}            { return TOKEN_RETURN; }
+
+{READ}              { return TOKEN_READ; }
+{WRITE}             { return TOKEN_WRITE; }
+{WRITELN}           { return TOKEN_WRITELN; }
+
+{ADD}               { return TOKEN_ADD; }
+{REMOVE}            { return TOKEN_REMOVE; }
+{EXISTS}            { return TOKEN_EXISTS; }
+{EMPTY}             { return TOKEN_EMPTY; }
+
+{INTEGER}           { return TOKEN_INTEGER; }
+{REAL}              { return TOKEN_REAL; }
+{IDENTIFIER}        { return TOKEN_IDENTIFIER; }
+{WHITESPACE}        { return TOKEN_WHITESPACE; }
+{NEWLINE}           { column = 0; line++; }
+.                   { return TOKEN_ERROR; }
+
 %%
 
 int main(int argc, char* argv[]) {
-    FILE * inputStream;
-    defineInputStream(inputStream, argc, argv);
-    runLexicalAnalyzer(inputStream);
+    defineInputStream(yyin, argc, argv);
+    runLexicalAnalyzer(yyin);
+    Token token;
+    yyin = fopen(argv[1], "r");
+    while(token = yylex()) {
+        print(token);
+    }
 }
