@@ -1,12 +1,8 @@
 #include "Input.h"
 
-void defineInputStream(FILE * inputStream, int argumentCount, char** arguments) {
-    inputStream = stdin;
+FILE * getInputStream(int argumentCount, char** arguments) {
     if (argumentCount > 1) {
-        inputStream = fopen(arguments[1], "r");
+        return fopen(arguments[1], "r");
     }
-}
-
-void runLexicalAnalyzer(FILE * inputStream) {
-
+    return stdin;
 }

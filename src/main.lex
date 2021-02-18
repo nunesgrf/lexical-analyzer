@@ -133,10 +133,9 @@ IDENTIFIER      {LETTER}({DIGIT}|{LETTER}|{UNDERSCORE})*
 %%
 
 int main(int argc, char* argv[]) {
-    defineInputStream(yyin, argc, argv);
-    runLexicalAnalyzer(yyin);
+    yyin = getInputStream(argc, argv);
+
     Token token;
-    yyin = fopen(argv[1], "r");
     while(token = yylex()) {
         print(token);
     }

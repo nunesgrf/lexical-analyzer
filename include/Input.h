@@ -3,8 +3,6 @@
 
 #include <stdio.h>
 
-void defineInputStream(FILE * inputStream, int argumentCount, char** arguments);
-
-void runLexicalAnalyzer(FILE * inputStream);
+FILE * getInputStream(int argumentCount, char** arguments);
 
 #endif
