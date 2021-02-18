@@ -7,13 +7,13 @@ typedef struct String {
   unsigned int max_size;
 } type_string;
 
-type_string * string_create();
+type_string * stringCreate();
 
-void string_append(type_string * string, char letter);
+void stringAppend(type_string * string, char letter);
 
-void string_clear(type_string * string);
+void stringClear(type_string * string);
 
-void string_free(type_string * string);
+void stringFree(type_string * string);
 
 int stringHasNoCapacity(type_string * string);
 

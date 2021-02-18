@@ -14,7 +14,7 @@ void reallocSize(type_string * string) {
     string->max_size = newMaxSize;
 }
 
-type_string * string_create() {
+type_string * stringCreate() {
     type_string * result = (type_string*) calloc(1, sizeof(type_string));
     result->size = 0;
     result->max_size = 1;
@@ -22,7 +22,7 @@ type_string * string_create() {
     return result;
 }
 
-void string_append(type_string * string, char letter) {
+void stringAppend(type_string * string, char letter) {
     if (stringHasNoCapacity(string)) {
         reallocSize(string);
     }
@@ -30,14 +30,14 @@ void string_append(type_string * string, char letter) {
     string->size++;
 }
 
-void string_clear(type_string * string) {
+void stringClear(type_string * string) {
     free(string->letters);
     string->max_size = 1;
     string->size = 0;
     string->letters = (char*) calloc(1, sizeof(char));
 }
 
-void string_free(type_string * string) {
+void stringFree(type_string * string) {
     free(string->letters);
     free(string);
 }

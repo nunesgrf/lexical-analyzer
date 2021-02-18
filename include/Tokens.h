@@ -60,6 +60,6 @@ static const char *TokenString[] = {
     FOREACH_TOKEN(GENERATE_STRING)
 };
 
-void print(Token token);
+void print(Token token, char * match);
 
 #endif

@@ -2,6 +2,9 @@
 
 #include "Input.h"
 #include "Tokens.h"
+#include "String.h"
+#include "ErrorHandler.h"
+
 #include <stdio.h>
 
 unsigned int line = 1;
@@ -135,8 +138,23 @@ IDENTIFIER      {LETTER}({DIGIT}|{LETTER}|{UNDERSCORE})*
 int main(int argc, char* argv[]) {
     yyin = getInputStream(argc, argv);
 
+    type_error * error = NULL;
+    type_error_list * errorList = createErrorList();
+    
     Token token;
-    while(token = yylex()) {
-        print(token);
+    while((token = yylex())) {
+        column += yyleng;
+        if (token == TOKEN_ERROR) {
+            error = createErrorIfNull(error, stringCreate(), line, column);
+            stringAppend(error->token, *yytext);
+        }
+        else {
+            errorListAppendIfNotNull(errorList, error);
+            error = NULL;
+            print(token, yytext);
+        }
     }
+    errorListAppendIfNotNull(errorList, error);
+    printIfThereAreErrors(errorList);
+    freeErrorList(errorList);
 }
