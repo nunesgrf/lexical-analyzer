@@ -130,7 +130,7 @@ IDENTIFIER      {LETTER}({DIGIT}|{LETTER}|{UNDERSCORE})*
 {REAL}              { return TOKEN_REAL; }
 {IDENTIFIER}        { return TOKEN_IDENTIFIER; }
 {WHITESPACE}        { return TOKEN_WHITESPACE; }
-{NEWLINE}           { column = 0; line++; }
+{NEWLINE}           { column = 0; line++; return TOKEN_WHITESPACE; }
 .                   { return TOKEN_ERROR; }
 
 %%
