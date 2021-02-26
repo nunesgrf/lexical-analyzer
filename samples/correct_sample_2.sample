@@ -1,0 +1,6 @@
+int main() {
+    elem a;
+    set b;
+    a = 1;
+    add(a in b);
+}

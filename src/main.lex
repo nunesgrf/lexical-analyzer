@@ -11,6 +11,7 @@ unsigned int line = 1;
 unsigned int column = 0;
 
 %}
+%option noinput nounput
 
 LEFT_BRACE "{"
 RIGHT_BRACE "}"

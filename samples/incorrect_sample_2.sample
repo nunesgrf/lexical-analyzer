@@ -1,0 +1,6 @@
+int main() {
+    set x;
+    int a;
+    a = x + x;
+    ?? = a;
+}

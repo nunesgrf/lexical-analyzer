@@ -56,10 +56,6 @@ typedef enum Token {
     FOREACH_TOKEN(GENERATE_ENUM)
 } Token;
 
-static const char *TokenString[] = {
-    FOREACH_TOKEN(GENERATE_STRING)
-};
-
 void print(Token token, char * match);
 
 #endif
