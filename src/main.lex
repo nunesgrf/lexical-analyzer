@@ -144,7 +144,6 @@ int main(int argc, char* argv[]) {
     
     Token token;
     while((token = yylex())) {
-        column += yyleng;
         if (token == TOKEN_ERROR) {
             error = createErrorIfNull(error, stringCreate(), line, column);
             stringAppend(error->token, *yytext);
@@ -154,6 +153,7 @@ int main(int argc, char* argv[]) {
             error = NULL;
             print(token, yytext);
         }
+        column += yyleng;
     }
     errorListAppendIfNotNull(errorList, error);
     printIfThereAreErrors(errorList);
