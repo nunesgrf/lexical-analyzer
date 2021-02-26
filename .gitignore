@@ -56,3 +56,7 @@ lex.yy.c
 
 # bin
 exe
+
+# Latex
+report/*
+!report/main.pdf
